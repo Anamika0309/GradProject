@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "name": "ai-product-insights",
+  "builds": [
+    { "src": "phase-3/frontend/**/*", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "/phase-3/frontend/$1" }
+  ]
+}

@@ -6,11 +6,16 @@
 'use strict';
 
 // ─── Configuration ─────────────────────────────────────────────────────────────
+// ⚠️ DEPLOYMENT INSTRUCTIONS ⚠️
+// When deploying to Render, change this from 'http://localhost:5678' to your Render URL:
+// Example: const API_HOST = 'https://ai-product-insights.onrender.com';
+const API_HOST = 'http://localhost:5678';
+
 const CONFIG = {
   MAX_CHARS: 5000,
   WARN_THRESHOLD: 0.8,   // 80% of max → show warning colour
-  WEBHOOK_URL: 'http://localhost:5678/webhook/analyze',
-  DATASET_WEBHOOK_URL: 'http://localhost:5678/webhook/analyze-dataset',
+  WEBHOOK_URL: `${API_HOST}/webhook/analyze`,
+  DATASET_WEBHOOK_URL: `${API_HOST}/webhook/analyze-dataset`,
 };
 
 // ─── Sample Reviews ───────────────────────────────────────────────────────────
