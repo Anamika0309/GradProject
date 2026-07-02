@@ -9,7 +9,7 @@
 // ⚠️ DEPLOYMENT INSTRUCTIONS ⚠️
 // When deploying to Render, change this from 'http://localhost:5678' to your Render URL:
 // Example: const API_HOST = 'https://ai-product-insights.onrender.com';
-const API_HOST = 'http://localhost:5678';
+const API_HOST = 'https://ai-product-insights-backend.onrender.com';
 
 const CONFIG = {
   MAX_CHARS: 5000,
