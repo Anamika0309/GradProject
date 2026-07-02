@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "source": "App Store",
+    "segment": "Casual Listener",
+    "text": "I've been using Spotify for 3 years and honestly the recommendations have gotten worse over time. Every single Discover Weekly is just the same 10 artists on rotation. I keep hoping it'll suggest something new but it never does. It's like the algorithm just gave up trying to learn my taste."
+  },
+  {
+    "id": 2,
+    "source": "Play Store",
+    "segment": "Student",
+    "text": "Great app overall but the radio feature is broken for me. Whenever I start a song radio it just plays the same song artist's entire discography. I want to discover similar artists not just more of the same person. Would love a proper discovery mode that actually branches out."
+  },
+  {
+    "id": 3,
+    "source": "Reddit",
+    "segment": "Audiophile",
+    "text": "The playlist curation has become a joke. I added a classical music playlist to my library and now my Discover Weekly is contaminated with orchestral pieces when I'm trying to find new indie rock. There's no way to separate my listening contexts. I wish they had proper taste profiles per genre."
+  },
+  {
+    "id": 4,
+    "source": "App Store",
+    "segment": "Gym User",
+    "text": "Needs a better workout mode. I want high BPM tracks that match my pace but the workout playlists are all over the place. The energy matching is terrible. Sometimes a slow ballad sneaks in mid-run and kills the whole vibe. I'd pay extra for a real fitness-tuned discovery feature."
+  },
+  {
+    "id": 5,
+    "source": "Play Store",
+    "segment": "Parent",
+    "text": "My kids keep getting exposed to songs with explicit lyrics even when I filter them out. The family plan is supposed to handle this but the recommendation engine doesn't respect the content filter properly. My 8 year old ended up hearing something really inappropriate. This needs to be fixed urgently."
+  },
+  {
+    "id": 6,
+    "source": "Reddit",
+    "segment": "Casual Listener",
+    "text": "I feel like Spotify punishes you for having diverse taste. The moment I listen to one country song the entire algorithm goes country crazy for weeks. There's no nuance. I want it to understand I was in a specific mood that day not that I converted to country music fan overnight."
+  },
+  {
+    "id": 7,
+    "source": "App Store",
+    "segment": "Audiophile",
+    "text": "Search is completely broken for obscure artists. If you don't know the exact spelling you'll never find them. And when you do find them the related artists suggestions are always mainstream names that have nothing in common except genre. Real music fans want to go deeper not broader."
+  },
+  {
+    "id": 8,
+    "source": "Play Store",
+    "segment": "Student",
+    "text": "Please add a study mode or focus playlist that learns from what I actually listen to while studying. Right now I have to manually curate everything. The AI recommendations never factor in context like time of day or what I'm doing. Even basic context awareness would improve this so much."
+  },
+  {
+    "id": 9,
+    "source": "App Store",
+    "segment": "Gym User",
+    "text": "Love the app but I've been listening to the same gym playlist for 6 months because discovering new workout music is impossible. The autoplay after my playlist ends always picks slow songs. I want an energy-based discovery mode not just genre-based. BPM matching would be a game changer."
+  },
+  {
+    "id": 10,
+    "source": "Community Forum",
+    "segment": "Casual Listener",
+    "text": "What happened to the old Discover Weekly? It used to feel fresh and surprising. Now it feels like it just gives me the popular artists in whatever genres I've listened to recently. There's no sense of exploration or surprise anymore. I miss discovering bands I never would have found on my own."
+  }
+]

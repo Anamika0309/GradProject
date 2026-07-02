@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO Meta Tags -->
+  <title>Spotify Review Analyzer – AI-Powered Review Discovery Engine</title>
+  <meta name="description" content="Paste Spotify user reviews and let our AI multi-agent pipeline surface pain points, user segments, feature requests, and product opportunities instantly." />
+  <meta name="keywords" content="Spotify, review analyzer, AI, music discovery, product insights, sentiment analysis" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Spotify Review Analyzer" />
+  <meta property="og:description" content="AI-Powered Review Discovery Engine for music discovery insights." />
+  <meta property="og:type" content="website" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="page-wrapper">
+
+  <!-- ─── Header ──────────────────────────────────────────────────────── -->
+  <header class="site-header" role="banner">
+    <div class="logo-group">
+      <div class="logo-icon" aria-hidden="true">🎵</div>
+      <div class="logo-text">
+        <h1>Spotify Review Analyzer</h1>
+        <p>AI-Powered Review Discovery Engine</p>
+      </div>
+    </div>
+    <span class="phase-badge" aria-label="Current build phase">Phase 3 – Map-Reduce Integration</span>
+  </header>
+
+  <!-- ─── Hero ────────────────────────────────────────────────────────── -->
+  <section class="hero" aria-labelledby="hero-heading">
+    <div class="hero-eyebrow" role="note">
+      <span class="hero-eyebrow-dot" aria-hidden="true"></span>
+      Multi-Agent AI Pipeline
+    </div>
+    <h2 id="hero-heading">
+      Turn user reviews into<br />
+      <span>actionable product insights</span>
+    </h2>
+    <p>
+      Paste Spotify user reviews below. Our five specialized AI agents analyze
+      sentiment, pain points, user segments, and feature requests — then
+      synthesize them into a structured report.
+    </p>
+  </section>
+
+  <!-- ─── Main Content ─────────────────────────────────────────────────── -->
+  <main id="main-content">
+
+    <!-- Input Section -->
+    <section class="input-section" aria-labelledby="input-label">
+      <div class="section-label">
+        <label id="input-label" for="review-input">Paste Reviews</label>
+        <span id="char-counter" class="char-counter" aria-live="polite" aria-label="Character count">0 / 5,000</span>
+      </div>
+
+      <textarea
+        id="review-input"
+        name="review-input"
+        placeholder="Paste one or more Spotify user reviews here. Each review should describe a listening experience, discovery problem, or feature request…"
+        aria-label="Review text input"
+        aria-describedby="char-counter validation-message"
+        autocomplete="off"
+        spellcheck="true"
+      ></textarea>
+
+      <!-- Validation Message -->
+      <div id="validation-message" class="validation-message" role="alert" aria-live="assertive"></div>
+
+      <div class="input-footer">
+        <button
+          id="btn-load-sample"
+          class="btn btn-ghost"
+          type="button"
+          aria-label="Load sample reviews into the text area"
+        >
+          📋 Load Sample Reviews
+        </button>
+
+        <button
+          id="btn-analyze"
+          class="btn btn-primary"
+          type="button"
+          aria-label="Analyze the pasted reviews using the AI pipeline"
+        >
+          <span aria-hidden="true">✦</span> Analyze Pasted Reviews
+        </button>
+      </div>
+
+      <p style="font-size: 0.72rem; color: var(--text-muted); margin-top: 10px;">
+        Tip: Press <kbd style="background:var(--bg-input);padding:2px 6px;border-radius:4px;font-size:0.7rem;">Ctrl+Enter</kbd> to analyze. Max 5,000 characters.
+      </p>
+    </section>
+
+    <!-- Dataset Analysis Section -->
+    <section class="input-section dataset-section" aria-labelledby="dataset-label" style="margin-top: 20px;">
+      <div class="section-label">
+        <label id="dataset-label" for="dataset-slider">Analyze Scraped Dataset</label>
+        <span class="dataset-badge">Map-Reduce Engine</span>
+      </div>
+      <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 15px;">
+        Process hundreds of reviews from the phase-6 scraped dataset using our automated Map-Reduce chunking pipeline.
+      </p>
+      
+      <div class="slider-container">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+          <label for="sample-size-slider" style="font-size: 0.85rem; font-weight: 500;">Sample Size: <span id="sample-size-val">100</span> Reviews</label>
+          <span id="map-reduce-warning" class="warning-text" style="display: none; color: #f5a623; font-size: 0.8rem; font-weight: 500;">Takes ~2 mins (Chunking Active)</span>
+        </div>
+        <input type="range" id="sample-size-slider" name="sample-size-slider" min="10" max="1000" step="10" value="100" style="width: 100%;">
+        <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">
+          <span>10</span>
+          <span>1,000</span>
+        </div>
+      </div>
+
+      <div class="input-footer" style="margin-top: 20px; justify-content: flex-end;">
+        <button
+          id="btn-analyze-dataset"
+          class="btn btn-primary"
+          style="background: linear-gradient(135deg, #1db954, #128238);"
+          type="button"
+          aria-label="Analyze the scraped dataset"
+        >
+          <span aria-hidden="true">📊</span> Analyze Dataset
+        </button>
+      </div>
+    </section>
+
+    <!-- Loading Indicator -->
+    <div
+      id="loading-indicator"
+      class="loading-indicator"
+      role="status"
+      aria-live="polite"
+      aria-label="Analysis in progress"
+    >
+      <div class="loading-spinner-large" aria-hidden="true"></div>
+      <p class="loading-title">Analyzing your reviews…</p>
+      <p class="loading-subtitle">Our AI agents are processing your input. This may take a few seconds.</p>
+
+      <div class="loading-steps" aria-label="Pipeline steps">
+        <div class="loading-step active">
+          <span class="loading-step-dot" aria-hidden="true"></span>
+          Sending to webhook
+        </div>
+        <div class="loading-step">
+          <span class="loading-step-dot" aria-hidden="true"></span>
+          Sentiment Agent processing
+        </div>
+        <div class="loading-step">
+          <span class="loading-step-dot" aria-hidden="true"></span>
+          Pain Point Agent processing
+        </div>
+        <div class="loading-step">
+          <span class="loading-step-dot" aria-hidden="true"></span>
+          User Segment Agent processing
+        </div>
+        <div class="loading-step">
+          <span class="loading-step-dot" aria-hidden="true"></span>
+          Feature Request Agent processing
+        </div>
+        <div class="loading-step">
+          <span class="loading-step-dot" aria-hidden="true"></span>
+          Insight Agent synthesizing
+        </div>
+      </div>
+    </div>
+
+    <!-- Results Section -->
+    <section
+      id="results-section"
+      class="results-section"
+      aria-labelledby="results-title"
+      aria-live="polite"
+    >
+      <div class="results-header">
+        <h2 id="results-title" class="results-title">Analysis Results</h2>
+        <div class="results-meta">
+          <span id="results-timestamp" aria-label="Analysis timestamp">—</span>
+          &nbsp;·&nbsp;
+          <span id="results-char-count" aria-label="Input character count">—</span>
+        </div>
+      </div>
+
+      <!-- Phase 3 Banner -->
+      <div id="phase-banner" class="phase-banner" role="note">
+        <span class="phase-banner-icon" aria-hidden="true">🚀</span>
+        <div class="phase-banner-text">
+          <p>Phase 3 Live — Multi-Agent Backend Connected</p>
+          <span>The frontend is now fully wired to the Groq Map-Reduce Chunking architecture for seamless, scalable PM Insights.</span>
+        </div>
+      </div>
+
+      <!-- Result Cards -->
+      <div id="results-cards" class="results-grid">
+
+        <!-- Executive Summary -->
+        <article class="result-card" aria-labelledby="card-exec-summary-title">
+          <div class="result-card-header">
+            <div class="result-card-icon exec-summary" aria-hidden="true">📈</div>
+            <div>
+              <h3 id="card-exec-summary-title" class="result-card-title">Executive Summary</h3>
+              <p class="result-card-subtitle">High-level overview of the analysis</p>
+            </div>
+          </div>
+          <div class="result-card-body" id="out-exec-summary">
+            <span class="pending-chip">Pending</span>
+          </div>
+        </article>
+
+        <!-- Sentiment Analysis -->
+        <article class="result-card" aria-labelledby="card-sentiment-title">
+          <div class="result-card-header">
+            <div class="result-card-icon sentiment" aria-hidden="true">😊</div>
+            <div>
+              <h3 id="card-sentiment-title" class="result-card-title">Sentiment Analysis</h3>
+              <p class="result-card-subtitle">Overall emotional tone of the reviews</p>
+            </div>
+          </div>
+          <div class="result-card-body" id="out-sentiment">
+            <span class="pending-chip">Pending</span>
+          </div>
+        </article>
+
+        <!-- Key Pain Points -->
+        <article class="result-card" aria-labelledby="card-pain-title">
+          <div class="result-card-header">
+            <div class="result-card-icon pain" aria-hidden="true">🔥</div>
+            <div>
+              <h3 id="card-pain-title" class="result-card-title">Key Pain Points</h3>
+              <p class="result-card-subtitle">Recurring friction in the user experience</p>
+            </div>
+          </div>
+          <div class="result-card-body" id="out-pain-points">
+            <span class="pending-chip">Pending</span>
+          </div>
+        </article>
+
+        <!-- Root Causes -->
+        <article class="result-card" aria-labelledby="card-root-causes-title">
+          <div class="result-card-header">
+            <div class="result-card-icon root-causes" aria-hidden="true">🔍</div>
+            <div>
+              <h3 id="card-root-causes-title" class="result-card-title">Root Causes</h3>
+              <p class="result-card-subtitle">Underlying issues causing surface complaints</p>
+            </div>
+          </div>
+          <div class="result-card-body" id="out-root-causes">
+            <span class="pending-chip">Pending</span>
+          </div>
+        </article>
+
+        <!-- Recommendation Frustrations -->
+        <article class="result-card" aria-labelledby="card-rec-frustrations-title">
+          <div class="result-card-header">
+            <div class="result-card-icon rec-frustrations" aria-hidden="true">🎶</div>
+            <div>
+              <h3 id="card-rec-frustrations-title" class="result-card-title">Recommendation Frustrations</h3>
+              <p class="result-card-subtitle">Issues with the discovery algorithms</p>
+            </div>
+          </div>
+          <div class="result-card-body" id="out-rec-frustrations">
+            <span class="pending-chip">Pending</span>
+          </div>
+        </article>
+
+        <!-- Desired Listening Behaviors -->
+        <article class="result-card" aria-labelledby="card-behaviors-title">
+          <div class="result-card-header">
+            <div class="result-card-icon behaviors" aria-hidden="true">🎧</div>
+            <div>
+              <h3 id="card-behaviors-title" class="result-card-title">Desired Listening Behaviors</h3>
+              <p class="result-card-subtitle">What users are trying to achieve</p>
+            </div>
+          </div>
+          <div class="result-card-body" id="out-behaviors">
+            <span class="pending-chip">Pending</span>
+          </div>
+        </article>
+
+        <!-- Repeat Listening Causes -->
+        <article class="result-card" aria-labelledby="card-repeat-title">
+          <div class="result-card-header">
+            <div class="result-card-icon repeat" aria-hidden="true">🔁</div>
+            <div>
+              <h3 id="card-repeat-title" class="result-card-title">Repeat Listening Causes</h3>
+              <p class="result-card-subtitle">Why users get stuck in algorithmic loops</p>
+            </div>
+          </div>
+          <div class="result-card-body" id="out-repeat-causes">
+            <span class="pending-chip">Pending</span>
+          </div>
+        </article>
+
+        <!-- User Segments -->
+        <article class="result-card" aria-labelledby="card-segments-title">
+          <div class="result-card-header">
+            <div class="result-card-icon segments" aria-hidden="true">👥</div>
+            <div>
+              <h3 id="card-segments-title" class="result-card-title">User Segments</h3>
+              <p class="result-card-subtitle">Distinct groups with different challenges</p>
+            </div>
+          </div>
+          <div class="result-card-body" id="out-segments">
+            <span class="pending-chip">Pending</span>
+          </div>
+        </article>
+
+        <!-- Unmet Needs -->
+        <article class="result-card" aria-labelledby="card-needs-title">
+          <div class="result-card-header">
+            <div class="result-card-icon needs" aria-hidden="true">🎯</div>
+            <div>
+              <h3 id="card-needs-title" class="result-card-title">Unmet Needs</h3>
+              <p class="result-card-subtitle">Core gaps between expectations and reality</p>
+            </div>
+          </div>
+          <div class="result-card-body" id="out-needs">
+            <span class="pending-chip">Pending</span>
+          </div>
+        </article>
+
+        <!-- Feature Requests -->
+        <article class="result-card" aria-labelledby="card-features-title">
+          <div class="result-card-header">
+            <div class="result-card-icon features" aria-hidden="true">💡</div>
+            <div>
+              <h3 id="card-features-title" class="result-card-title">Feature Requests</h3>
+              <p class="result-card-subtitle">What users explicitly want built</p>
+            </div>
+          </div>
+          <div class="result-card-body" id="out-features">
+            <span class="pending-chip">Pending</span>
+          </div>
+        </article>
+
+        <!-- Strategic Product Insights -->
+        <article class="result-card" aria-labelledby="card-strategic-title">
+          <div class="result-card-header">
+            <div class="result-card-icon strategic" aria-hidden="true">🎯</div>
+            <div>
+              <h3 id="card-strategic-title" class="result-card-title">Strategic Insights</h3>
+              <p class="result-card-subtitle">High-level PM takeaways</p>
+            </div>
+          </div>
+          <div class="result-card-body" id="out-strategic">
+            <span class="pending-chip">Pending</span>
+          </div>
+        </article>
+
+        <!-- AI Product Opportunities -->
+        <article class="result-card" aria-labelledby="card-opportunities-title">
+          <div class="result-card-header">
+            <div class="result-card-icon opportunities" aria-hidden="true">✨</div>
+            <div>
+              <h3 id="card-opportunities-title" class="result-card-title">AI Opportunities</h3>
+              <p class="result-card-subtitle">GenAI/ML driven product concepts</p>
+            </div>
+          </div>
+          <div class="result-card-body" id="out-opportunities">
+            <span class="pending-chip">Pending</span>
+          </div>
+        </article>
+
+        <!-- Confidence Assessment -->
+        <article class="result-card" aria-labelledby="card-confidence-title">
+          <div class="result-card-header">
+            <div class="result-card-icon confidence" aria-hidden="true">🛡️</div>
+            <div>
+              <h3 id="card-confidence-title" class="result-card-title">Confidence Assessment</h3>
+              <p class="result-card-subtitle">Analysis reliability</p>
+            </div>
+          </div>
+          <div class="result-card-body" id="out-confidence">
+            <span class="pending-chip">Pending</span>
+          </div>
+        </article>
+
+      </div><!-- /#results-cards -->
+
+    </section><!-- /#results-section -->
+
+  </main>
+
+  <!-- ─── Footer ───────────────────────────────────────────────────────── -->
+  <footer class="site-footer" role="contentinfo">
+    <p>
+      AI-Powered Review Discovery Engine &nbsp;·&nbsp; Phase 3 Complete &nbsp;·&nbsp;
+      Built for the Spotify Growth Team
+    </p>
+  </footer>
+
+</div><!-- /.page-wrapper -->
+
+<script src="app.js"></script>
+</body>
+</html>

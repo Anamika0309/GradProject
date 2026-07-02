@@ -1,0 +1,29 @@
+{
+  "run_start": "2026-07-01T18:45:48.490347+00:00",
+  "run_end": "2026-07-01T18:49:35.244353+00:00",
+  "duration_minutes": 3.8,
+  "sources_scraped": [
+    "app_store",
+    "play_store",
+    "reddit",
+    "community_forum",
+    "social_media"
+  ],
+  "raw_by_source": {
+    "app_store": 2053,
+    "play_store": 2318,
+    "reddit": 0,
+    "community_forum": 0,
+    "social_media": 1924
+  },
+  "normalized_total": 6292,
+  "deduplication": {
+    "original": 6292,
+    "exact_removed": 3,
+    "near_removed": 0,
+    "final_count": 6289,
+    "reduction_pct": 0.0
+  },
+  "final_review_count": 6289,
+  "output_file": "C:\\Users\\Admin\\gradproject antigravity\\phase-6\\storage\\processed\\all_reviews.json"
+}

@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SpotifyReviewEntry",
+  "description": "Unified schema for a single review/post/comment from any source",
+  "type": "object",
+  "required": ["id", "source", "platform", "text", "date", "word_count"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique deterministic ID: sha256(source + url + text[:100])"
+    },
+    "source": {
+      "type": "string",
+      "enum": ["app_store", "play_store", "reddit", "community_forum", "social_media"],
+      "description": "High-level source category"
+    },
+    "platform": {
+      "type": "string",
+      "description": "Specific platform or subreddit (e.g. 'google_play', 'r/spotify', 'youtube')"
+    },
+    "text": {
+      "type": "string",
+      "description": "The full review/post/comment text"
+    },
+    "title": {
+      "type": ["string", "null"],
+      "description": "Review title (App Store / Play Store) or post title (Reddit / Forum)"
+    },
+    "author": {
+      "type": "string",
+      "description": "Username or 'anonymous'"
+    },
+    "date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 datetime string"
+    },
+    "rating": {
+      "type": ["integer", "null"],
+      "minimum": 1,
+      "maximum": 5,
+      "description": "Star rating for app store reviews; null for forum/social sources"
+    },
+    "language": {
+      "type": "string",
+      "description": "ISO 639-1 language code (e.g. 'en')"
+    },
+    "url": {
+      "type": ["string", "null"],
+      "description": "Source URL for the review"
+    },
+    "word_count": {
+      "type": "integer",
+      "description": "Word count of the text field"
+    },
+    "scraped_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when this record was scraped"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Source-specific extra fields",
+      "properties": {
+        "score":        { "type": ["integer", "null"] },
+        "num_comments": { "type": ["integer", "null"] },
+        "subreddit":    { "type": ["string", "null"] },
+        "country":      { "type": ["string", "null"] },
+        "video_id":     { "type": ["string", "null"] },
+        "video_title":  { "type": ["string", "null"] },
+        "like_count":   { "type": ["integer", "null"] },
+        "flair":        { "type": ["string", "null"] }
+      }
+    }
+  }
+}

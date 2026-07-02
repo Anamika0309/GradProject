@@ -1,0 +1,101 @@
+{
+  "total_reviews_analyzed": 2332,
+  "sentiment_distribution": {
+    "Happy": 1708,
+    "Angry": 555,
+    "Neutral": 69
+  },
+  "user_segment_distribution": {
+    "Parent": 1162,
+    "General user": 890,
+    "Audiophile": 193,
+    "Gym User": 27,
+    "Student": 39,
+    "Casual": 21
+  },
+  "top_pain_points": [
+    {
+      "issue": "Mentioned: playlist",
+      "count": 584
+    },
+    {
+      "issue": "Mentioned: recommend",
+      "count": 268
+    },
+    {
+      "issue": "Mentioned: shuffle",
+      "count": 126
+    },
+    {
+      "issue": "Mentioned: search",
+      "count": 105
+    },
+    {
+      "issue": "Mentioned: discover",
+      "count": 101
+    },
+    {
+      "issue": "Technical issue: bug",
+      "count": 93
+    },
+    {
+      "issue": "Mentioned: recommendation",
+      "count": 90
+    },
+    {
+      "issue": "Mentioned: my playlist",
+      "count": 84
+    },
+    {
+      "issue": "Mentioned: library",
+      "count": 78
+    },
+    {
+      "issue": "Technical issue: crash",
+      "count": 77
+    }
+  ],
+  "top_feature_requests": [
+    {
+      "request": "Want to listen to music",
+      "count": 4
+    },
+    {
+      "request": "The playlist management needs improvement",
+      "count": 2
+    },
+    {
+      "request": "It's so hard to organize my playlists and the sorting options are limited",
+      "count": 2
+    },
+    {
+      "request": "The gapless playback feature is perfect for albums",
+      "count": 2
+    },
+    {
+      "request": "I understand you need to make money, but it's excessive",
+      "count": 2
+    },
+    {
+      "request": "like bro when I make a playlist I like it how it is I don't need some robot to recommend things for it",
+      "count": 2
+    },
+    {
+      "request": "if you want audiobooks or free music, I highly recommend a different platform",
+      "count": 2
+    },
+    {
+      "request": "I already pay for premium but that only allows for 15 hours of audiobooks and now they want me to pay for an add on that's the same price as the monthly fee for only 15 hours more",
+      "count": 2
+    },
+    {
+      "request": "99 a month audiobook add on it should be unlimited",
+      "count": 2
+    },
+    {
+      "request": "If I add a song to the queue, it'll play the song but will not change the shuffle, so that song could be played right away again if it was in that order of the 'shuffle'",
+      "count": 2
+    }
+  ],
+  "analysis_timestamp": "2026-07-01T18:07:07.908848+00:00"
+}
