@@ -54,12 +54,12 @@ def _try_groq():
         client = Groq(api_key=api_key)
         # Probe with a real completion to confirm it works
         client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
+            model="llama-3.1-8b-instant",
             messages=[{"role": "user", "content": "hi"}],
             max_tokens=5,
         )
-        _pipeline = ReviewAnalysisPipeline(client=client, model="llama-3.3-70b-versatile")
-        _engine_label = "Groq llama-3.3-70b (free)"
+        _pipeline = ReviewAnalysisPipeline(client=client, model="llama-3.1-8b-instant")
+        _engine_label = "Groq llama-3.1-8b (free)"
         _openai_available = True
         print("[INFO] Engine: Groq llama-3.3-70b-versatile (FREE) — ACTIVE")
         return True
@@ -239,11 +239,12 @@ def analyze_dataset():
 
     Body (optional): { "sample_size": 250 }
     """
+    print(f"DEBUG inside analyze_dataset: _pipeline is {_pipeline}")
     if not _pipeline:
         return jsonify({
             "status": "error",
             "error_code": "NO_LLM_ENGINE",
-            "message": "No LLM engine available. Configure GROQ_API_KEY in phase-6/config/.env"
+            "message": f"No LLM engine available. Configure GROQ_API_KEY in phase-6/config/.env. Pipeline object: {_pipeline}"
         }), 503
 
     if not DATASET_PATH.exists():

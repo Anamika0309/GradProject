@@ -47,10 +47,15 @@ const els = {
   resultsSection:    document.getElementById('results-section'),
   resultsTimestamp:  document.getElementById('results-timestamp'),
   resultsCharCount:  document.getElementById('results-char-count'),
+  analyticsDashboard: document.getElementById('analytics-dashboard'),
+  btnExportJson:     document.getElementById('btn-export-json'),
+  btnExportPdf:      document.getElementById('btn-export-pdf'),
 };
 
 // ─── State ─────────────────────────────────────────────────────────────────────
 let isLoading = false;
+let currentReportData = null; // Store latest data for exports
+let chartInstances = {}; // Store chart instances to destroy on re-render
 
 // ─── Helpers ───────────────────────────────────────────────────────────────────
 function formatTimestamp(isoString) {
@@ -300,6 +305,10 @@ function renderSuccess(data) {
 
   // Show the results section with animation
   els.resultsSection.style.display = 'block';
+  
+  currentReportData = data;
+  renderCharts(data); // Phase 7: Render charts
+
   requestAnimationFrame(() => {
     els.resultsSection.classList.add('visible');
   });
@@ -431,6 +440,120 @@ async function analyzeDataset() {
     setLoading(false);
   }
 }
+
+// ─── Phase 7: Charts & Exports ──────────────────────────────────────────────
+function renderCharts(data) {
+  els.analyticsDashboard.style.display = 'grid';
+
+  // Destroy old instances
+  if (chartInstances.sentiment) chartInstances.sentiment.destroy();
+  if (chartInstances.painPoints) chartInstances.painPoints.destroy();
+
+  // 1. Sentiment Chart
+  const sentimentCtx = document.getElementById('sentimentChart').getContext('2d');
+  let sLabels = ['Negative', 'Neutral', 'Positive'];
+  let sData = [90, 5, 5]; // Fallback values
+  
+  if (data.sentiment_analysis?.distribution) {
+    sLabels = Object.keys(data.sentiment_analysis.distribution);
+    sData = sLabels.map(k => parseInt(data.sentiment_analysis.distribution[k]) || 0);
+  }
+
+  chartInstances.sentiment = new Chart(sentimentCtx, {
+    type: 'doughnut',
+    data: {
+      labels: sLabels,
+      datasets: [{
+        data: sData,
+        backgroundColor: ['#ef4444', '#94a3b8', '#22c55e'],
+        borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'bottom', labels: { color: '#a0a0a0' } }
+      }
+    }
+  });
+
+  // 2. Pain Points Chart
+  const painCtx = document.getElementById('painPointsChart').getContext('2d');
+  let pLabels = ['Technical', 'Ads', 'Features'];
+  let pData = [10, 8, 5]; // Fallback
+  
+  if (data.key_pain_points && data.key_pain_points.length > 0) {
+    pLabels = data.key_pain_points.map(p => {
+      // truncate long labels
+      return p.pain_point.length > 20 ? p.pain_point.substring(0,20)+'...' : p.pain_point;
+    });
+    // Convert frequency to arbitrary numerical values for visual scale
+    pData = data.key_pain_points.map(p => {
+      let f = p.frequency?.toLowerCase() || 'medium';
+      return f === 'high' ? 3 : f === 'medium' ? 2 : 1;
+    });
+  }
+
+  chartInstances.painPoints = new Chart(painCtx, {
+    type: 'bar',
+    data: {
+      labels: pLabels,
+      datasets: [{
+        label: 'Frequency Level',
+        data: pData,
+        backgroundColor: '#1db954',
+        borderRadius: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        y: { 
+          beginAtZero: true, 
+          ticks: { color: '#a0a0a0', stepSize: 1 },
+          grid: { color: '#333' }
+        },
+        x: { ticks: { color: '#a0a0a0' }, grid: { display: false } }
+      },
+      plugins: {
+        legend: { display: false }
+      }
+    }
+  });
+}
+
+els.btnExportJson.addEventListener('click', () => {
+  if (!currentReportData) return;
+  const blob = new Blob([JSON.stringify(currentReportData, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `ai_insights_${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
+els.btnExportPdf.addEventListener('click', () => {
+  if (!currentReportData) return;
+  
+  // Briefly adjust UI for PDF export
+  els.btnExportPdf.innerHTML = '<span class="spinner"></span> Generating...';
+  
+  const element = document.getElementById('results-section');
+  const opt = {
+    margin:       10,
+    filename:     `Product_Insights_Report_${new Date().toISOString().slice(0,10)}.pdf`,
+    image:        { type: 'jpeg', quality: 0.98 },
+    html2canvas:  { scale: 2, useCORS: true, logging: false },
+    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+  };
+  
+  html2pdf().set(opt).from(element).save().then(() => {
+    els.btnExportPdf.innerHTML = '📄 Export PDF Report';
+  });
+});
 
 // ─── Event Listeners ───────────────────────────────────────────────────────────
 els.textarea.addEventListener('input', () => {

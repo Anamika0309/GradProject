@@ -678,6 +678,29 @@ body {
   animation: pulse-dot 1s ease-in-out infinite;
 }
 
+/* ─── Phase 7: Analytics Grid ───────────────────────────────────────────── */
+.analytics-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-xl);
+  margin-top: var(--space-lg);
+  margin-bottom: var(--space-2xl);
+}
+
+@media (min-width: 800px) {
+  .analytics-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.chart-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: var(--space-lg);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
 /* ─── Footer ────────────────────────────────────────────────────────────── */
 .site-footer {
   text-align: center;

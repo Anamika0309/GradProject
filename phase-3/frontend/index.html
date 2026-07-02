@@ -15,6 +15,10 @@
   <meta property="og:type" content="website" />
 
   <link rel="stylesheet" href="style.css" />
+  
+  <!-- Phase 7 Chart & Export Dependencies -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
 
@@ -29,7 +33,7 @@
         <p>AI-Powered Review Discovery Engine</p>
       </div>
     </div>
-    <span class="phase-badge" aria-label="Current build phase">Phase 3 – Map-Reduce Integration</span>
+    <span class="phase-badge" aria-label="Current build phase">Phase 7 – Advanced Analytics</span>
   </header>
 
   <!-- ─── Hero ────────────────────────────────────────────────────────── -->
@@ -188,13 +192,36 @@
         </div>
       </div>
 
-      <!-- Phase 3 Banner -->
-      <div id="phase-banner" class="phase-banner" role="note">
-        <span class="phase-banner-icon" aria-hidden="true">🚀</span>
-        <div class="phase-banner-text">
-          <p>Phase 3 Live — Multi-Agent Backend Connected</p>
-          <span>The frontend is now fully wired to the Groq Map-Reduce Chunking architecture for seamless, scalable PM Insights.</span>
+      <!-- Phase 7 Banner & Actions -->
+      <div id="phase-banner" class="phase-banner" role="note" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+        <div style="display: flex; gap: 12px; align-items: center;">
+          <span class="phase-banner-icon" aria-hidden="true">📈</span>
+          <div class="phase-banner-text">
+            <p>Phase 7 Live — Advanced Analytics & Export</p>
+            <span>The Map-Reduce output is now visualized with interactive charts and exportable for PM reports.</span>
+          </div>
         </div>
+        <div class="export-actions" style="display: flex; gap: 10px;">
+          <button id="btn-export-json" class="btn btn-ghost" style="padding: 6px 12px; font-size: 0.85rem;">⬇️ JSON</button>
+          <button id="btn-export-pdf" class="btn btn-primary" style="padding: 6px 12px; font-size: 0.85rem;">📄 Export PDF Report</button>
+        </div>
+      </div>
+      
+      <!-- Analytics Charts Section -->
+      <div id="analytics-dashboard" class="analytics-grid" style="display: none; margin-bottom: 2rem;">
+        <article class="result-card chart-card">
+          <h3 class="result-card-title" style="margin-bottom: 1rem; text-align: center;">Sentiment Distribution</h3>
+          <div style="position: relative; height: 250px; width: 100%; display: flex; justify-content: center;">
+            <canvas id="sentimentChart"></canvas>
+          </div>
+        </article>
+        
+        <article class="result-card chart-card">
+          <h3 class="result-card-title" style="margin-bottom: 1rem; text-align: center;">Pain Points Overview</h3>
+          <div style="position: relative; height: 250px; width: 100%;">
+            <canvas id="painPointsChart"></canvas>
+          </div>
+        </article>
       </div>
 
       <!-- Result Cards -->
