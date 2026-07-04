@@ -9,7 +9,7 @@
 // ⚠️ DEPLOYMENT INSTRUCTIONS ⚠️
 // When deploying to Render, change this from 'http://localhost:5678' to your Render URL:
 // Example: const API_HOST = 'https://ai-product-insights.onrender.com';
-const API_HOST = 'https://ai-product-insights-backend.onrender.com';
+const API_HOST = 'https://ai-product-insights.onrender.com';
 
 const CONFIG = {
   MAX_CHARS: 5000,
@@ -34,22 +34,22 @@ const SAMPLE_REVIEWS = [
 
 // ─── DOM References ────────────────────────────────────────────────────────────
 const els = {
-  textarea:          document.getElementById('review-input'),
-  charCounter:       document.getElementById('char-counter'),
-  loadSampleBtn:     document.getElementById('btn-load-sample'),
-  analyzeBtn:        document.getElementById('btn-analyze'),
+  textarea: document.getElementById('review-input'),
+  charCounter: document.getElementById('char-counter'),
+  loadSampleBtn: document.getElementById('btn-load-sample'),
+  analyzeBtn: document.getElementById('btn-analyze'),
   analyzeDatasetBtn: document.getElementById('btn-analyze-dataset'),
-  sampleSizeSlider:  document.getElementById('sample-size-slider'),
-  sampleSizeVal:     document.getElementById('sample-size-val'),
-  mapReduceWarning:  document.getElementById('map-reduce-warning'),
-  validationMsg:     document.getElementById('validation-message'),
-  loadingIndicator:  document.getElementById('loading-indicator'),
-  resultsSection:    document.getElementById('results-section'),
-  resultsTimestamp:  document.getElementById('results-timestamp'),
-  resultsCharCount:  document.getElementById('results-char-count'),
+  sampleSizeSlider: document.getElementById('sample-size-slider'),
+  sampleSizeVal: document.getElementById('sample-size-val'),
+  mapReduceWarning: document.getElementById('map-reduce-warning'),
+  validationMsg: document.getElementById('validation-message'),
+  loadingIndicator: document.getElementById('loading-indicator'),
+  resultsSection: document.getElementById('results-section'),
+  resultsTimestamp: document.getElementById('results-timestamp'),
+  resultsCharCount: document.getElementById('results-char-count'),
   analyticsDashboard: document.getElementById('analytics-dashboard'),
-  btnExportJson:     document.getElementById('btn-export-json'),
-  btnExportPdf:      document.getElementById('btn-export-pdf'),
+  btnExportJson: document.getElementById('btn-export-json'),
+  btnExportPdf: document.getElementById('btn-export-pdf'),
 };
 
 // ─── State ─────────────────────────────────────────────────────────────────────
@@ -100,7 +100,7 @@ function setLoading(active, isMapReduce = false) {
       loadingSubtitle.textContent = "Our AI agents are processing your input. This may take a few seconds.";
       loadingTitle.style.color = "var(--text-primary)";
     }
-    
+
     els.loadingIndicator.classList.add('visible');
     els.resultsSection.classList.remove('visible');
     animateLoadingSteps();
@@ -143,7 +143,7 @@ function renderSuccess(data) {
   els.resultsCharCount.textContent = `${data.meta?.received_length?.toLocaleString() || '—'} chars`;
 
   // Populate new PM cards
-  
+
   // 1. Executive Summary
   if (data.executive_summary) {
     document.getElementById('out-exec-summary').innerHTML = `
@@ -152,31 +152,8 @@ function renderSuccess(data) {
       <div><strong>Biggest Opportunity:</strong> ${data.executive_summary.biggest_opportunity || '—'}</div>
     `;
   }
-  
-  // 2. Sentiment Analysis
-  if (data.sentiment_analysis) {
-    const dist = data.sentiment_analysis.distribution || {};
-    document.getElementById('out-sentiment').innerHTML = `
-      <div style="margin-bottom: 12px;"><strong>Overall:</strong> ${data.sentiment_analysis.overall_sentiment || '—'} (Confidence: ${data.sentiment_analysis.confidence || '—'})</div>
-      <div><strong>Distribution:</strong> Pos ${dist.Positive || '0%'} | Neu ${dist.Neutral || '0%'} | Neg ${dist.Negative || '0%'}</div>
-    `;
-  }
 
-  // 3. Key Pain Points
-  if (data.key_pain_points && data.key_pain_points.length) {
-    document.getElementById('out-pain-points').innerHTML = `
-      <ul style="padding-left: 20px; margin: 0;">
-        ${data.key_pain_points.map(p => `
-          <li style="margin-bottom: 8px;">
-            <strong>${p.pain_point}</strong> 
-            <span class="pill pill-freq">${p.frequency || ''}</span>
-            <span class="pill pill-sev">${p.severity || ''}</span>
-            <div style="font-size: 0.85em; color: var(--text-muted); margin-top: 4px;">Ex: "${(p.example_reviews && p.example_reviews[0]) || 'N/A'}"</div>
-          </li>
-        `).join('')}
-      </ul>
-    `;
-  } else { document.getElementById('out-pain-points').innerHTML = 'None detected.'; }
+
 
   // 4. Root Causes
   if (data.root_causes && data.root_causes.length) {
@@ -305,7 +282,7 @@ function renderSuccess(data) {
 
   // Show the results section with animation
   els.resultsSection.style.display = 'block';
-  
+
   currentReportData = data;
   renderCharts(data); // Phase 7: Render charts
 
@@ -405,10 +382,10 @@ async function analyzeReviews() {
 // ─── Dataset Analysis Flow ───────────────────────────────────────────────────────
 async function analyzeDataset() {
   hideValidation();
-  
+
   const sampleSize = parseInt(els.sampleSizeSlider.value, 10);
   const isMapReduce = sampleSize > 100;
-  
+
   setLoading(true, isMapReduce);
 
   try {
@@ -453,7 +430,7 @@ function renderCharts(data) {
   const sentimentCtx = document.getElementById('sentimentChart').getContext('2d');
   let sLabels = ['Negative', 'Neutral', 'Positive'];
   let sData = [90, 5, 5]; // Fallback values
-  
+
   if (data.sentiment_analysis?.distribution) {
     sLabels = Object.keys(data.sentiment_analysis.distribution);
     sData = sLabels.map(k => parseInt(data.sentiment_analysis.distribution[k]) || 0);
@@ -482,11 +459,11 @@ function renderCharts(data) {
   const painCtx = document.getElementById('painPointsChart').getContext('2d');
   let pLabels = ['Technical', 'Ads', 'Features'];
   let pData = [10, 8, 5]; // Fallback
-  
+
   if (data.key_pain_points && data.key_pain_points.length > 0) {
     pLabels = data.key_pain_points.map(p => {
       // truncate long labels
-      return p.pain_point.length > 20 ? p.pain_point.substring(0,20)+'...' : p.pain_point;
+      return p.pain_point.length > 20 ? p.pain_point.substring(0, 20) + '...' : p.pain_point;
     });
     // Convert frequency to arbitrary numerical values for visual scale
     pData = data.key_pain_points.map(p => {
@@ -510,8 +487,8 @@ function renderCharts(data) {
       responsive: true,
       maintainAspectRatio: false,
       scales: {
-        y: { 
-          beginAtZero: true, 
+        y: {
+          beginAtZero: true,
           ticks: { color: '#a0a0a0', stepSize: 1 },
           grid: { color: '#333' }
         },
@@ -530,27 +507,106 @@ els.btnExportJson.addEventListener('click', () => {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `ai_insights_${new Date().toISOString().slice(0,10)}.json`;
+  a.download = `ai_insights_${new Date().toISOString().slice(0, 10)}.json`;
   a.click();
   URL.revokeObjectURL(url);
 });
 
 els.btnExportPdf.addEventListener('click', () => {
   if (!currentReportData) return;
-  
-  // Briefly adjust UI for PDF export
+
   els.btnExportPdf.innerHTML = '<span class="spinner"></span> Generating...';
-  
-  const element = document.getElementById('results-section');
+
+  let html = `<div style="background-color: #fff; color: #000; font-family: Arial, sans-serif; padding: 40px; font-size: 14px; line-height: 1.6; width: 800px; box-sizing: border-box;">`;
+  html += `<h1 style="font-size: 24px; border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 20px;">Product Insights Report</h1>`;
+
+  const data = currentReportData;
+
+  if (data.executive_summary) {
+    html += `<h2 style="font-size: 18px; margin-top: 20px; margin-bottom: 10px;">Executive Summary</h2>`;
+    html += `<p style="margin-bottom: 8px;"><strong>Overall Problem:</strong> ${data.executive_summary.overall_problem || '—'}</p>`;
+    html += `<p style="margin-bottom: 8px;"><strong>Primary Need:</strong> ${data.executive_summary.primary_user_need || '—'}</p>`;
+    html += `<p style="margin-bottom: 8px;"><strong>Biggest Opportunity:</strong> ${data.executive_summary.biggest_opportunity || '—'}</p>`;
+  }
+
+  if (data.sentiment_analysis) {
+    html += `<h2 style="font-size: 18px; margin-top: 20px; margin-bottom: 10px;">Sentiment Analysis</h2>`;
+    html += `<p style="margin-bottom: 8px;"><strong>Overall Sentiment:</strong> ${data.sentiment_analysis.overall_sentiment || '—'}</p>`;
+  }
+
+  if (data.key_pain_points && data.key_pain_points.length) {
+    html += `<h2 style="font-size: 18px; margin-top: 20px; margin-bottom: 10px;">Key Pain Points</h2><ul style="padding-left: 20px; margin-bottom: 10px;">`;
+    data.key_pain_points.forEach(p => {
+      html += `<li style="margin-bottom: 8px;"><strong>${p.pain_point}</strong> (Freq: ${p.frequency}, Severity: ${p.severity})<br><em>Ex: "${(p.example_reviews && p.example_reviews[0]) || ''}"</em></li>`;
+    });
+    html += `</ul>`;
+  }
+
+  if (data.root_causes && data.root_causes.length) {
+    html += `<h2 style="font-size: 18px; margin-top: 20px; margin-bottom: 10px;">Root Causes</h2><ul style="padding-left: 20px; margin-bottom: 10px;">`;
+    data.root_causes.forEach(r => html += `<li style="margin-bottom: 8px;"><strong>${r.problem}:</strong> ${r.reasoning}</li>`);
+    html += `</ul>`;
+  }
+
+  if (data.recommendation_frustrations && data.recommendation_frustrations.length) {
+    html += `<h2 style="font-size: 18px; margin-top: 20px; margin-bottom: 10px;">Recommendation Frustrations</h2><ul style="padding-left: 20px; margin-bottom: 10px;">`;
+    data.recommendation_frustrations.forEach(f => html += `<li style="margin-bottom: 8px;"><strong>${f.issue}:</strong> ${f.why_it_happens}</li>`);
+    html += `</ul>`;
+  }
+
+  if (data.desired_listening_behaviors && data.desired_listening_behaviors.length) {
+    html += `<h2 style="font-size: 18px; margin-top: 20px; margin-bottom: 10px;">Desired Listening Behaviors</h2><ul style="padding-left: 20px; margin-bottom: 10px;">`;
+    data.desired_listening_behaviors.forEach(b => html += `<li style="margin-bottom: 8px;"><strong>${b.behavior}:</strong> ${b.user_goal}</li>`);
+    html += `</ul>`;
+  }
+
+  if (data.repeat_listening_causes && data.repeat_listening_causes.length) {
+    html += `<h2 style="font-size: 18px; margin-top: 20px; margin-bottom: 10px;">Repeat Listening Causes</h2><ul style="padding-left: 20px; margin-bottom: 10px;">`;
+    data.repeat_listening_causes.forEach(c => html += `<li style="margin-bottom: 8px;"><strong>${c.cause}:</strong> ${c.evidence}</li>`);
+    html += `</ul>`;
+  }
+
+  if (data.user_segments && data.user_segments.length) {
+    html += `<h2 style="font-size: 18px; margin-top: 20px; margin-bottom: 10px;">User Segments</h2><ul style="padding-left: 20px; margin-bottom: 10px;">`;
+    data.user_segments.forEach(s => html += `<li style="margin-bottom: 8px;"><strong>${s.segment}</strong> - ${s.description} (Needs: ${(s.needs || []).join(', ')})</li>`);
+    html += `</ul>`;
+  }
+
+  if (data.unmet_needs && data.unmet_needs.length) {
+    html += `<h2 style="font-size: 18px; margin-top: 20px; margin-bottom: 10px;">Unmet Needs</h2><ul style="padding-left: 20px; margin-bottom: 10px;">`;
+    data.unmet_needs.forEach(n => html += `<li style="margin-bottom: 8px;"><strong>${n.need}</strong> (Importance: ${n.importance})</li>`);
+    html += `</ul>`;
+  }
+
+  if (data.feature_requests && data.feature_requests.length) {
+    html += `<h2 style="font-size: 18px; margin-top: 20px; margin-bottom: 10px;">Feature Requests</h2><ul style="padding-left: 20px; margin-bottom: 10px;">`;
+    data.feature_requests.forEach(f => html += `<li style="margin-bottom: 8px;"><strong>${f.feature}:</strong> ${f.reason}</li>`);
+    html += `</ul>`;
+  }
+
+  if (data.strategic_product_insights && data.strategic_product_insights.length) {
+    html += `<h2 style="font-size: 18px; margin-top: 20px; margin-bottom: 10px;">Strategic Insights</h2><ul style="padding-left: 20px; margin-bottom: 10px;">`;
+    data.strategic_product_insights.forEach(i => html += `<li style="margin-bottom: 8px;"><strong>${i.insight}</strong><br>Impact: ${i.business_impact}</li>`);
+    html += `</ul>`;
+  }
+
+  if (data.ai_product_opportunities && data.ai_product_opportunities.length) {
+    html += `<h2 style="font-size: 18px; margin-top: 20px; margin-bottom: 10px;">AI Product Opportunities</h2><ul style="padding-left: 20px; margin-bottom: 10px;">`;
+    data.ai_product_opportunities.forEach(o => html += `<li style="margin-bottom: 8px;"><strong>${o.opportunity}</strong><br>Why AI: ${o.why_ai_is_needed}</li>`);
+    html += `</ul>`;
+  }
+
+  html += `</div>`;
+
   const opt = {
-    margin:       10,
-    filename:     `Product_Insights_Report_${new Date().toISOString().slice(0,10)}.pdf`,
-    image:        { type: 'jpeg', quality: 0.98 },
-    html2canvas:  { scale: 2, useCORS: true, logging: false },
-    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    margin: [15, 15, 15, 15],
+    filename: `Product_Insights_Report_${new Date().toISOString().slice(0, 10)}.pdf`,
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2, useCORS: true, logging: false },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
   };
-  
-  html2pdf().set(opt).from(element).save().then(() => {
+
+  html2pdf().set(opt).from(html).save().then(() => {
     els.btnExportPdf.innerHTML = '📄 Export PDF Report';
   });
 });
@@ -564,7 +620,7 @@ els.textarea.addEventListener('input', () => {
 els.sampleSizeSlider.addEventListener('input', (e) => {
   const val = parseInt(e.target.value, 10);
   els.sampleSizeVal.textContent = val.toLocaleString();
-  
+
   if (val > 100) {
     els.mapReduceWarning.style.display = 'inline-block';
   } else {
