@@ -368,8 +368,8 @@ async function analyzeReviews() {
     console.error('[ReviewEngine] Fetch error:', err);
     if (err instanceof TypeError && err.message.includes('fetch')) {
       renderError(
-        'Could not reach the analysis server. Make sure the backend is running on <code>localhost:5678</code>. ' +
-        'Run <strong>npm run dev</strong> in the <code>phase-1/backend</code> folder.'
+        'Could not reach the analysis server. The backend might have timed out or is sleeping. ' +
+        'Please wait a moment and try again.'
       );
     } else {
       renderError('An unexpected error occurred. Check the browser console for more details.');
