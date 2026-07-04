@@ -153,7 +153,29 @@ function renderSuccess(data) {
     `;
   }
 
+  // 2. Sentiment Analysis
+  if (data.sentiment_analysis) {
+    document.getElementById('out-sentiment').innerHTML = `
+      <div style="margin-bottom: 8px;"><strong>Overall Sentiment:</strong> ${data.sentiment_analysis.overall_sentiment || '—'}</div>
+      <div><strong>Confidence:</strong> ${data.sentiment_analysis.confidence || '—'}</div>
+    `;
+  } else { document.getElementById('out-sentiment').innerHTML = 'None detected.'; }
 
+  // 3. Key Pain Points
+  if (data.key_pain_points && data.key_pain_points.length) {
+    document.getElementById('out-pain-points').innerHTML = `
+      <ul style="padding-left: 20px; margin: 0;">
+        ${data.key_pain_points.map(p => `
+          <li style="margin-bottom: 12px;">
+            <strong>${p.pain_point}</strong> (Freq: ${p.frequency}, Severity: ${p.severity})
+            <div style="font-size: 0.9em; margin-top: 4px; color: var(--text-muted);">
+              <em>Ex: "${(p.example_reviews && p.example_reviews[0]) || ''}"</em>
+            </div>
+          </li>
+        `).join('')}
+      </ul>
+    `;
+  } else { document.getElementById('out-pain-points').innerHTML = 'None detected.'; }
 
   // 4. Root Causes
   if (data.root_causes && data.root_causes.length) {
@@ -431,9 +453,11 @@ function renderCharts(data) {
   let sLabels = ['Negative', 'Neutral', 'Positive'];
   let sData = [90, 5, 5]; // Fallback values
 
-  if (data.sentiment_analysis?.distribution) {
+  if (data.sentiment_analysis?.distribution && typeof data.sentiment_analysis.distribution === 'object') {
     sLabels = Object.keys(data.sentiment_analysis.distribution);
     sData = sLabels.map(k => parseInt(data.sentiment_analysis.distribution[k]) || 0);
+  } else if (data.sentiment_analysis?.distribution) {
+    console.warn('[ReviewEngine] Sentiment distribution is not an object:', data.sentiment_analysis.distribution);
   }
 
   chartInstances.sentiment = new Chart(sentimentCtx, {
